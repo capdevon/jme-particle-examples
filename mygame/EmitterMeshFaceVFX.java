@@ -1,0 +1,86 @@
+package mygame;
+
+import java.io.IOException;
+
+import com.jme3.effect.shapes.EmitterShape;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.math.FastMath;
+import com.jme3.math.Triangle;
+import com.jme3.math.Vector3f;
+import com.jme3.scene.Mesh;
+import com.jme3.util.clone.Cloner;
+
+/**
+ *
+ * @author capdevon
+ */
+public class EmitterMeshFaceVFX implements EmitterShape {
+
+    private Mesh source;
+    private int triangleIndex;
+    private Triangle triStore = new Triangle();
+    private int triCount;
+    Vector3f p1 = new Vector3f();
+    Vector3f p2 = new Vector3f();
+    Vector3f p3 = new Vector3f();
+    Vector3f a = new Vector3f();
+    Vector3f b = new Vector3f();
+    Vector3f result = new Vector3f();
+
+    public EmitterMeshFaceVFX(Mesh source) {
+        this.source = source;
+        triCount = source.getTriangleCount();
+    }
+
+    @Override
+    public void getRandomPoint(Vector3f store) {
+        triangleIndex = FastMath.rand.nextInt(triCount);
+        source.getTriangle(triangleIndex, triStore);
+        triStore.calculateCenter();
+        triStore.calculateNormal();
+
+        p1.set(triStore.get1().subtract(triStore.getCenter()));
+        p2.set(triStore.get2().subtract(triStore.getCenter()));
+        p3.set(triStore.get3().subtract(triStore.getCenter()));
+
+        a.interpolateLocal(p1, p2, 1f - FastMath.rand.nextFloat());
+        b.interpolateLocal(p1, p3, 1f - FastMath.rand.nextFloat());
+        result.interpolateLocal(a, b, FastMath.rand.nextFloat());
+
+        store.set(triStore.getCenter().add(result));
+    }
+
+    @Override
+    public void getRandomPointAndNormal(Vector3f store, Vector3f normal) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public Object jmeClone() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void cloneFields(Cloner cloner, Object original) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public EmitterShape deepClone() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+}
