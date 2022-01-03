@@ -51,24 +51,28 @@ dependencies {
     
     // BasicGame doesn't use physics. If your game needs physics, select either:
     //    1. Minie
-    implementation 'com.github.stephengold:Minie:4.5.0'
+    implementation 'com.github.stephengold:Minie:4.6.0'
     //    2. jme3-jbullet
     //implementation 'org.jmonkeyengine:jme3-jbullet:' + jmeVersion
 
-    // select one version of LWJGL
+    // -- select one version of LWJGL
     //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jmeVersion  // LWJGL 2.x
     runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jmeVersion // LWJGL 3.x
 
+    //  -- they are included solely to avoid warnings from AssetConfig
     runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jmeVersion
     runtimeOnly 'org.jmonkeyengine:jme3-plugins:' + jmeVersion
-    //runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
-    runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.4.0-alpha6'
         
     // Libraries related to the Lemur GUI and Groovy:
     implementation 'com.simsilica:lemur:1.15.0'
     implementation 'com.simsilica:lemur-props:1.1.1'
     implementation 'com.simsilica:lemur-proto:1.12.0'
     runtimeOnly 'org.codehaus.groovy:groovy-jsr223:3.0.8'
+    
+    // other libraries:
+    //implementation 'com.github.stephengold:Heart:7.1.0'
+    //implementation 'com.simsilica:sim-math:1.4.1'
+    runtimeOnly 'org.jmonkeyengine:jme3-testdata:' + jmeVersion
 }
 
 // cleanup tasks
