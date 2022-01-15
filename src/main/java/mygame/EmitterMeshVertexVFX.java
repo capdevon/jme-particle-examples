@@ -60,8 +60,9 @@ public class EmitterMeshVertexVFX implements EmitterShape {
 
     @Override
     public void getRandomPointAndNormal(Vector3f store, Vector3f normal) {
-        int vertIndex = FastMath.nextRandomInt(0, indexList.size() - 1);
-
+        int i = FastMath.nextRandomInt(0, indexList.size() - 1);
+        int vertIndex = indexList.get(i);
+        
         FloatBuffer vertBuffer = source.getFloatBuffer(VertexBuffer.Type.Position);
         BufferUtils.populateFromBuffer(store, vertBuffer, vertIndex);
 
