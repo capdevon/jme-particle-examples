@@ -4,7 +4,7 @@ The goal of this game jam is to reproduce the effect of this Unity [tutorial](ht
 
 The test case you can use is [Test_JmeVFX2](https://github.com/capdevon/Game-Jam-01/blob/main/src/main/java/mygame/Test_JmeVFX2.java). 
 
-If you solve the problem, send me a pull request or write me on the jme fourm at this [topic](https://hub.jmonkeyengine.org/t/jmonkeyengine-vfx-game-jam-01/45221/20). 
+If you solve the problem, send me a pull request or write me on the jme forum at this [topic](https://hub.jmonkeyengine.org/t/jmonkeyengine-vfx-game-jam-01/45221/20). 
 
 Thanks for your help.
 
