@@ -98,11 +98,6 @@ public class EmitterMeshVertexVFX implements EmitterShape {
     }
 
     @Override
-    public void getRandomPointAndNormal(Vector3f store, Vector3f normal) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
     public void write(JmeExporter ex) throws IOException {
         // TODO Auto-generated method stub
     }
