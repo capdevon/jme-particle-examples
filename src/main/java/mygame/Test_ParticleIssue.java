@@ -141,8 +141,8 @@ public class Test_ParticleIssue extends SimpleApplication implements ActionListe
 
         motionControl = new MotionEvent(myModel, path);
         motionControl.setLoopMode(LoopMode.Loop);
-        //motionControl.setDuration(15f);
-        //motionControl.setSpeed(1.05f);
+        //motionControl.setInitialDuration(10f);
+        //motionControl.setSpeed(2f);
         motionControl.setDirectionType(MotionEvent.Direction.Path);
     }
 
