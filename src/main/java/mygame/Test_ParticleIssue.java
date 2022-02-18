@@ -1,11 +1,14 @@
 package mygame;
 
+import java.util.Arrays;
+
 import com.jme3.animation.LoopMode;
 import com.jme3.app.SimpleApplication;
 import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.effect.ParticleEmitter;
 import com.jme3.effect.ParticleMesh.Type;
+import com.jme3.effect.shapes.EmitterMeshVertexShape;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.input.KeyInput;
@@ -32,8 +35,6 @@ import com.jme3.scene.shape.Torus;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.system.AppSettings;
 import com.jme3.texture.Texture;
-
-import mygame.effect.shape.EmitterMeshVertexVFX;
 
 /**
  *
@@ -91,7 +92,7 @@ public class Test_ParticleIssue extends SimpleApplication implements ActionListe
     }
 
     private Geometry createTorus(float radius) {
-        float s = radius / 8f; // s = 2/80 = 0.025
+        float s = radius / 8f;
         Geometry geo = new Geometry("CircleXZ", new Torus(64, 4, s, radius));
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Blue);
@@ -107,24 +108,24 @@ public class Test_ParticleIssue extends SimpleApplication implements ActionListe
      */
     private ParticleEmitter createParticleEmitter(Geometry geo, boolean pointSprite) {
         Type type = pointSprite ? Type.Point : Type.Triangle;
-        ParticleEmitter emit = new ParticleEmitter("Emitter", type, 1000);
+        ParticleEmitter emitter = new ParticleEmitter("Emitter", type, 1000);
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Particle.j3md");
         mat.setTexture("Texture", assetManager.loadTexture("Effects/Smoke/Smoke.png"));
         mat.setBoolean("PointSprite", pointSprite);
-        emit.setMaterial(mat);
-        emit.setLowLife(1);
-        emit.setHighLife(1);
-        emit.setImagesX(15);
-        emit.setStartSize(0.04f);
-        emit.setEndSize(0.02f);
-        emit.setStartColor(ColorRGBA.Orange);
-        emit.setEndColor(ColorRGBA.Red);
-        emit.setParticlesPerSec(900);
-        emit.setGravity(0, 0f, 0);
-        emit.getParticleInfluencer().setVelocityVariation(1);
-        emit.getParticleInfluencer().setInitialVelocity(new Vector3f(0, .5f, 0));
-        emit.setShape(new EmitterMeshVertexVFX(geo.getMesh()));
-        return emit;
+        emitter.setMaterial(mat);
+        emitter.setLowLife(1);
+        emitter.setHighLife(1);
+        emitter.setImagesX(15);
+        emitter.setStartSize(0.04f);
+        emitter.setEndSize(0.02f);
+        emitter.setStartColor(ColorRGBA.Orange);
+        emitter.setEndColor(ColorRGBA.Red);
+        emitter.setParticlesPerSec(900);
+        emitter.setGravity(0, 0f, 0);
+        emitter.getParticleInfluencer().setVelocityVariation(1);
+        emitter.getParticleInfluencer().setInitialVelocity(new Vector3f(0, .5f, 0));
+        emitter.setShape(new EmitterMeshVertexShape(Arrays.asList(geo.getMesh())));
+        return emitter;
     }
 
     private void createMotionControl() {
@@ -141,7 +142,7 @@ public class Test_ParticleIssue extends SimpleApplication implements ActionListe
 
         motionControl = new MotionEvent(myModel, path);
         motionControl.setLoopMode(LoopMode.Loop);
-        //motionControl.setInitialDuration(10f);
+        //motionControl.setInitialDuration(15f);
         //motionControl.setSpeed(2f);
         motionControl.setDirectionType(MotionEvent.Direction.Path);
     }
