@@ -61,11 +61,6 @@ public class EmitterMeshVertexVFX implements EmitterShape {
         }
 
         indexList.addAll(mapPos.values());
-
-        System.out.println("Triangles: " + source.getTriangleCount());
-        System.out.println("Vertices: " + source.getVertexCount());
-        System.out.println("Mesh Mode: " + source.getMode());
-        System.out.println("IndexList: " + indexList.size());
     }
 
     /**
@@ -122,6 +117,15 @@ public class EmitterMeshVertexVFX implements EmitterShape {
     public EmitterShape deepClone() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "EmitterMeshVertexVFX [Mesh Mode=" + source.getMode()
+                + ", Triangles=" + source.getTriangleCount()
+                + ", Vertices=" + source.getVertexCount()
+                + ", IndexList=" + indexList.size()
+                + "]";
     }
 
 }
