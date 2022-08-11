@@ -40,15 +40,14 @@ repositories {
 
 dependencies {
 
-    // Engine:
+    // jMonkeyEngine:
     implementation 'org.jmonkeyengine:jme3-core:' + jmeVersion
     implementation 'org.jmonkeyengine:jme3-desktop:' + jmeVersion
     implementation 'org.jmonkeyengine:jme3-effects:' + jmeVersion
     //implementation 'org.jmonkeyengine:jme3-terrain:' + jmeVersion
     
-    // BasicGame doesn't use physics. If your game needs physics, select either:
-    //    1. Minie
-    //implementation 'com.github.stephengold:Minie:4.9.0+big3'
+    // Physics:
+    //implementation 'com.github.stephengold:Minie:5.1.0+big3'
 
     // -- select one version of LWJGL
     //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jmeVersion  // LWJGL 2.x
