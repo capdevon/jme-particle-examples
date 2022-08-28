@@ -1,5 +1,5 @@
 ### 1. Game-Jam-01
-Goal deescription: "Spawn particles in an animated character".
+Goal description: "Spawn particles in an animated character".
 
 Reference video: [tutorial](https://www.youtube.com/watch?v=ePbeaYuMNK4) 
 
