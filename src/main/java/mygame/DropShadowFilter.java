@@ -106,7 +106,6 @@ public class DropShadowFilter extends Filter {
                             };
 
     private Geometry shadowGeom;
-    private Material shadowMaterial;
     private Mesh mesh;
     private int maxShadows;
     
@@ -139,15 +138,23 @@ public class DropShadowFilter extends Filter {
         this.maxShadows = maxShadows;
     }
     
+    public Material getShadowMaterial() {
+        return shadowGeom.getMaterial();
+    }
+
+    public void setShadowMaterial(Material shadowMaterial) {
+        shadowGeom.setMaterial(shadowMaterial);
+    }
+
     public ColorRGBA getShadowColor() {
-		return shadowColor;
-	}
+        return shadowColor;
+    }
 
-	public void setShadowColor(ColorRGBA shadowColor) {
-		this.shadowColor.set(shadowColor);
-	}
+    public void setShadowColor(ColorRGBA shadowColor) {
+        this.shadowColor.set(shadowColor);
+    }
 
-	public void setShadowIntensity( float f ) {
+    public void setShadowIntensity(float f) {
         shadowColor.a = f;
     }
     
@@ -161,8 +168,8 @@ public class DropShadowFilter extends Filter {
      */
     public void setShowBox( boolean f ) {
         this.showBox = f;
-        if( shadowMaterial != null ) {
-            shadowMaterial.setBoolean("ShowBox", showBox);
+        if (shadowGeom != null) {
+            shadowGeom.getMaterial().setBoolean("ShowBox", showBox);
         }
     }
     
@@ -199,7 +206,7 @@ public class DropShadowFilter extends Filter {
 
 
         shadowGeom = new Geometry("shadowVolumes", mesh);
-        Material m = shadowMaterial = new Material(assets, "MatDefs/shadow/Shadows.j3md");
+        Material m = new Material(assets, "MatDefs/shadow/Shadows.j3md");
         m.setColor("ShadowColor", shadowColor);
         m.setBoolean("ShowBox", showBox);
         m.getAdditionalRenderState().setDepthWrite(false);
@@ -236,6 +243,8 @@ public class DropShadowFilter extends Filter {
 
         Texture frameTex = prevFilterBuffer.getColorBuffer().getTexture(); 
         Texture depthTex = prevFilterBuffer.getDepthBuffer().getTexture(); 
+        
+        Material shadowMaterial = shadowGeom.getMaterial();
         shadowMaterial.setTexture("FrameTexture", frameTex);
         if( frameTex.getImage().getMultiSamples() > 1 ) {
             shadowMaterial.setInt("NumSamples", frameTex.getImage().getMultiSamples());
@@ -277,8 +286,8 @@ public class DropShadowFilter extends Filter {
         for( int i = 0; i < size; i++ ) {
             Geometry g = casters.get(i);
 
-            // Use the geometry bounds.  We assumg it is still y-up
-            // and merely rotated.  It's a decent enough approximiation
+            // Use the geometry bounds.  We assume it is still y-up
+            // and merely rotated.  It's a decent enough approximation
             // in many cases and will produce better shadows for oblong
             // objects than a simple round radius would.
             BoundingBox bounds = (BoundingBox) g.getModelBound();
@@ -439,6 +448,7 @@ public class DropShadowFilter extends Filter {
         private final Vector3f tempVec  = new Vector3f();
         private final Vector3f tempVec2 = new Vector3f();
 
+        @Override
         public void setCamera( Camera cam ) {
             this.cam = cam;
         }
@@ -468,6 +478,7 @@ public class DropShadowFilter extends Filter {
             return spat.queueDistance;
         }
 
+        @Override
         public int compare( Geometry o1, Geometry o2 ) {
             // Front to back sort
             float d1 = distanceToCam(o1);
