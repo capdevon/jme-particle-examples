@@ -65,7 +65,8 @@ void main(){
     float col = sqrt((xTex * xTex) + (zTex * zTex) + (yTex * yTex));
     float shadow = (1.0 - col);
     color = vec4(m_ShadowColor);
-    color.a *= clamp(shadow, 0.0, 0.8);
+    //color.a *= clamp(shadow, 0.0, 0.8);
+    color.a = step(0.7, col);
     #endif
 
     gl_FragColor = color;
