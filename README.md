@@ -1,7 +1,8 @@
 ### 1. Game-Jam-01
 Goal description: "Spawn particles in an animated character".
 
-Reference video: [tutorial](https://www.youtube.com/watch?v=ePbeaYuMNK4) 
+Reference video: 
+* [CHARACTER EFFECTS in Unity VFX Graph](https://www.youtube.com/watch?v=ePbeaYuMNK4) 
 
 There is a bug in the stock jME emitter.
 I opened an issue [1773](https://github.com/jMonkeyEngine/jmonkeyengine/issues/1773) (not fixed yet)
@@ -10,4 +11,7 @@ I opened an issue [1773](https://github.com/jMonkeyEngine/jmonkeyengine/issues/1
 
 Goal description: "Scanner Effect".
 
-Reference video: [tutorial](https://www.youtube.com/watch?v=yiTF4rJu6tY)
+Reference video: 
+* [3D Scanner Effect](https://www.youtube.com/watch?v=yiTF4rJu6tY)
+* [No Man's Sky: Topographic Scanner](https://www.youtube.com/watch?v=OKoNp2RqE9A)
+* [Unity Scanner Effect](https://www.youtube.com/watch?v=K-GGztfU_AI)
