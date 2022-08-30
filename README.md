@@ -13,5 +13,5 @@ Goal description: "Scanner Effect".
 
 Reference video: 
 * [3D Scanner Effect](https://www.youtube.com/watch?v=yiTF4rJu6tY)
-* [No Man's Sky: Topographic Scanner](https://www.youtube.com/watch?v=OKoNp2RqE9A)
-* [Unity Scanner Effect](https://www.youtube.com/watch?v=K-GGztfU_AI)
+* [No Man's Sky: Topographic Scanner](https://www.youtube.com/watch?v=OKoNp2RqE9A) - Asset Download
+* [Unity Scanner Effect](https://www.youtube.com/watch?v=K-GGztfU_AI) - Asset Download
