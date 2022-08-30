@@ -4,6 +4,9 @@ import com.jme3.anim.AnimComposer;
 import com.jme3.anim.SkinningControl;
 import com.jme3.app.SimpleApplication;
 import com.jme3.font.BitmapText;
+import com.jme3.input.KeyInput;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
@@ -30,13 +33,14 @@ import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.geomipmap.lodcalc.DistanceLodCalculator;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Texture;
+import com.jme3.util.MaterialDebugAppState;
 import com.jme3.util.SkyFactory;
 
 /**
  *
  * @author capdevon
  */
-public class Test_ScannerEffect extends SimpleApplication {
+public class Test_ScannerEffect extends SimpleApplication implements ActionListener {
 
     /**
      *
@@ -52,6 +56,7 @@ public class Test_ScannerEffect extends SimpleApplication {
         app.start();
     }
 
+    private DropShadowFilter dsf;
     private BitmapText hud;
     private Node objects = new Node("Objects");
 
@@ -63,13 +68,15 @@ public class Test_ScannerEffect extends SimpleApplication {
 
         //Press F6 to turn it on/off.
         //stateManager.attach(new DetailedProfilerState());
-        
+        stateManager.attach(new MaterialDebugAppState());
+
         configCamera();
         setupSky();
         createTerrain();
-        addLighting();
+        addLighiting();
         createFloor();
         addSinbad();
+        configureInput();
 
         float size = 0.5f;
         ColorRGBA color = ColorRGBA.Orange;
@@ -131,7 +138,7 @@ public class Test_ScannerEffect extends SimpleApplication {
         parent.attachChild(sp);
         return sp;
     }
-    
+
     private Geometry createBox(String name, float size, ColorRGBA color) {
         Box mesh = new Box(size, size, size);
         return createMesh(name, mesh, color);
@@ -156,7 +163,7 @@ public class Test_ScannerEffect extends SimpleApplication {
         mat.setFloat("Roughness", 0.3f);
         return mat;
     }
-    
+
     /*
      * Create a shiny light material with a specified uniform color.
      */
@@ -170,7 +177,7 @@ public class Test_ScannerEffect extends SimpleApplication {
         return m;
     }
 
-    private void addLighting() {
+    private void addLighiting() {
         viewPort.setBackgroundColor(ColorRGBA.DarkGray);
         rootNode.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
@@ -190,8 +197,8 @@ public class Test_ScannerEffect extends SimpleApplication {
 
         FXAAFilter fxaa = new FXAAFilter();
         BloomFilter bloom = new BloomFilter(BloomFilter.GlowMode.Objects);
-        
-        DropShadowFilter dsf = new DropShadowFilter();
+
+        dsf = new DropShadowFilter();
         dsf.setShadowColor(ColorRGBA.Cyan);
         dsf.setShadowIntensity(0.75f);
 //        dsf.setShowBox(true);
@@ -209,7 +216,7 @@ public class Test_ScannerEffect extends SimpleApplication {
         sky.setShadowMode(RenderQueue.ShadowMode.Off);
         rootNode.attachChild(sky);
     }
-    
+
     private void createTerrain() {
         Texture heightMapImage = assetManager.loadTexture("Textures/Terrain/splat/mountains512.png");
 
@@ -270,6 +277,20 @@ public class Test_ScannerEffect extends SimpleApplication {
         bmp.setColor(color);
         guiNode.attachChild(bmp);
         return bmp;
+    }
+
+    private void configureInput() {
+        inputManager.addMapping("reloadMaterial", new KeyTrigger(KeyInput.KEY_R));
+        inputManager.addListener(this, "reloadMaterial");
+    }
+
+    @Override
+    public void onAction(String name, boolean isPressed, float tpf) {
+        if (name.equals("reloadMaterial") && isPressed) {
+            MaterialDebugAppState debug = stateManager.getState(MaterialDebugAppState.class);
+            Material m = debug.reloadMaterial(dsf.getShadowMaterial());
+            dsf.setShadowMaterial(m);
+        }
     }
 
 }
