@@ -67,7 +67,7 @@ public class Test_ScannerEffect extends SimpleApplication {
         configCamera();
         setupSky();
         createTerrain();
-        addLighiting();
+        addLighting();
         createFloor();
         addSinbad();
 
@@ -170,7 +170,7 @@ public class Test_ScannerEffect extends SimpleApplication {
         return m;
     }
 
-    private void addLighiting() {
+    private void addLighting() {
         viewPort.setBackgroundColor(ColorRGBA.DarkGray);
         rootNode.setShadowMode(RenderQueue.ShadowMode.CastAndReceive);
 
