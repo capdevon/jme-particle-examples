@@ -50,7 +50,7 @@ public class PointMesh extends MyParticleMesh {
     private int imagesY = 1;
 
     @Override
-    public void initParticleData(Object emitter, int numParticles) {
+    public void initParticleData(BaseEmitter emitter, int numParticles) {
         setMode(Mode.Points);
 
         this.emitter = (MyParticleEmitter) emitter;

@@ -50,7 +50,7 @@ public abstract class MyParticleMesh extends Mesh {
      * @param emitter The emitter which will use this <code>ParticleMesh</code>.
      * @param numParticles The maximum number of particles to simulate
      */
-    public abstract void initParticleData(Object emitter, int numParticles);
+    public abstract void initParticleData(BaseEmitter emitter, int numParticles);
 
     /**
      * Set the images on the X and Y coordinates

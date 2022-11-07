@@ -55,7 +55,7 @@ public class TriangleMesh extends MyParticleMesh {
     private boolean uniqueTexCoords = false;
 
     @Override
-    public void initParticleData(Object emitter, int numParticles) {
+    public void initParticleData(BaseEmitter emitter, int numParticles) {
         setMode(Mode.Triangles);
 
         this.emitter = (MyParticleEmitter) emitter;

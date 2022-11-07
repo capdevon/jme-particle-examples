@@ -74,7 +74,7 @@ import com.jme3.util.clone.Cloner;
  *
  * @author Kirill Vainer
  */
-public class MyParticleEmitter extends Geometry {
+public class MyParticleEmitter extends Geometry implements BaseEmitter {
 
     private static final EmitterShape DEFAULT_SHAPE = new EmitterPointShape(Vector3f.ZERO);
     private static final ParticleInfluencer DEFAULT_INFLUENCER = new DefaultParticleInfluencer();
