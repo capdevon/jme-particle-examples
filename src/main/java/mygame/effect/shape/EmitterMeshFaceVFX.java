@@ -45,7 +45,7 @@ public class EmitterMeshFaceVFX implements EmitterShape {
      */
     @Override
     public void getRandomPoint(Vector3f store) {
-        triangleIndex = FastMath.rand.nextInt(triCount);
+        triangleIndex = FastMath.nextRandomInt(0, triCount - 1);
         source.getTriangle(triangleIndex, triStore);
         triStore.calculateCenter();
         triStore.calculateNormal();
@@ -54,9 +54,9 @@ public class EmitterMeshFaceVFX implements EmitterShape {
         p2.set(triStore.get2().subtract(triStore.getCenter()));
         p3.set(triStore.get3().subtract(triStore.getCenter()));
 
-        a.interpolateLocal(p1, p2, 1f - FastMath.rand.nextFloat());
-        b.interpolateLocal(p1, p3, 1f - FastMath.rand.nextFloat());
-        result.interpolateLocal(a, b, FastMath.rand.nextFloat());
+        a.interpolateLocal(p1, p2, 1f - FastMath.nextRandomFloat());
+        b.interpolateLocal(p1, p3, 1f - FastMath.nextRandomFloat());
+        result.interpolateLocal(a, b, FastMath.nextRandomFloat());
 
         store.set(triStore.getCenter().add(result));
     }
@@ -91,6 +91,14 @@ public class EmitterMeshFaceVFX implements EmitterShape {
     public EmitterShape deepClone() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "EmitterMeshFaceVFX [Mesh Mode=" + source.getMode()
+                + ", Triangles=" + source.getTriangleCount()
+                + ", Vertices=" + source.getVertexCount()
+                + "]";
     }
 
 }
