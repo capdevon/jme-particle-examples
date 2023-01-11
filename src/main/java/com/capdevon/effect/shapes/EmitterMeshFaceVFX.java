@@ -1,4 +1,4 @@
-package mygame.effect.shape;
+package com.capdevon.effect.shapes;
 
 import java.io.IOException;
 
@@ -63,33 +63,27 @@ public class EmitterMeshFaceVFX implements EmitterShape {
 
     @Override
     public void getRandomPointAndNormal(Vector3f store, Vector3f normal) {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void write(JmeExporter ex) throws IOException {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void read(JmeImporter im) throws IOException {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public Object jmeClone() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public EmitterShape deepClone() {
-        // TODO Auto-generated method stub
         return null;
     }
 

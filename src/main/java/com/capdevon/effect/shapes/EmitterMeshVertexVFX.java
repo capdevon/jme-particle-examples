@@ -1,4 +1,4 @@
-package mygame.effect.shape;
+package com.capdevon.effect.shapes;
 
 import java.io.IOException;
 import java.nio.FloatBuffer;

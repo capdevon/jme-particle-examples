@@ -1,4 +1,4 @@
-package mygame.effect;
+package com.capdevon.effect;
 
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;

@@ -1,5 +1,6 @@
 package mygame;
 
+import com.capdevon.effect.MyParticleEmitter;
 import com.jme3.anim.AnimComposer;
 import com.jme3.anim.SkinningControl;
 import com.jme3.animation.LoopMode;
@@ -38,8 +39,6 @@ import com.jme3.scene.shape.CenterQuad;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.system.AppSettings;
 import com.jme3.texture.Texture;
-
-import mygame.effect.MyParticleEmitter;
 
 /**
  *

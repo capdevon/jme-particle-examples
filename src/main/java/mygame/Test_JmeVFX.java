@@ -3,6 +3,7 @@ package mygame;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.capdevon.effect.shapes.EmitterMeshVertexVFX;
 import com.jme3.anim.AnimComposer;
 import com.jme3.anim.SkinningControl;
 import com.jme3.app.DetailedProfilerState;
@@ -34,8 +35,6 @@ import com.jme3.scene.shape.CenterQuad;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.system.AppSettings;
 import com.jme3.texture.Texture;
-
-import mygame.effect.shape.EmitterMeshVertexVFX;
 
 /**
  *
