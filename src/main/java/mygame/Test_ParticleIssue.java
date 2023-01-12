@@ -131,14 +131,15 @@ public class Test_ParticleIssue extends SimpleApplication implements ActionListe
     private void createMotionControl() {
         float radius = 5f;
         float height = 1.10f;
+
         MotionPath path = new MotionPath();
         path.setCycle(true);
-        path.addWayPoint(new Vector3f(radius, height, 0));
-        path.addWayPoint(new Vector3f(0, height, radius));
-        path.addWayPoint(new Vector3f(-radius, height, 0));
-        path.addWayPoint(new Vector3f(0, height, -radius));
-        path.setCurveTension(0.83f);
-        //path.enableDebugShape(assetManager, rootNode);
+
+        for (int i = 0; i < 8; i++) {
+            float x = FastMath.sin(FastMath.QUARTER_PI * i) * radius;
+            float z = FastMath.cos(FastMath.QUARTER_PI * i) * radius;
+            path.addWayPoint(new Vector3f(x, height, z));
+        }
 
         motionControl = new MotionEvent(myModel, path);
         motionControl.setLoopMode(LoopMode.Loop);

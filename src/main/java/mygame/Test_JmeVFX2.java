@@ -32,7 +32,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.CenterQuad;
-import com.jme3.scene.shape.Torus;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.jme3.system.AppSettings;
 import com.jme3.texture.Texture;
@@ -97,54 +96,43 @@ public class Test_JmeVFX2 extends SimpleApplication implements ActionListener {
         Geometry body = (Geometry) myModel.getChild("Alpha_Surface");
         emit = createParticleEmitter(body);
         myModel.attachChild(emit);
-
-//        Geometry torus = createTorus(1f);
-//        myModel.attachChild(torus);
-//        emit = createParticleEmitter(torus);
-//        myModel.attachChild(emit);
-    }
-
-    private Geometry createTorus(float radius) {
-        float s = radius / 80f; // s = 2/80 = 0.025
-        Geometry geo = new Geometry("CircleXZ", new Torus(64, 4, s, radius));
-        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Red);
-        geo.setMaterial(mat);
-        geo.rotate(FastMath.PI / 2, 0, 0);
-        return geo;
     }
 
     private MyParticleEmitter createParticleEmitter(Geometry geo) {
-        MyParticleEmitter emit = new MyParticleEmitter("Emitter", ParticleMesh.Type.Triangle, 1000);
+        MyParticleEmitter emitter = new MyParticleEmitter("Emitter", ParticleMesh.Type.Triangle, 1000);
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Particle.j3md");
         mat.setTexture("Texture", assetManager.loadTexture("Effects/Smoke/Smoke.png"));
 //        mat.setColor("GlowColor", ColorRGBA.Yellow);
-        emit.setMaterial(mat);
-        emit.setLowLife(1);
-        emit.setHighLife(1);
-        emit.setImagesX(15);
-        emit.setStartSize(0.04f);
-        emit.setEndSize(0.02f);
-        emit.setStartColor(ColorRGBA.Orange);
-        emit.setEndColor(ColorRGBA.Red);
-        emit.setParticlesPerSec(900);
-        emit.setGravity(0, 0f, 0);
-        emit.getParticleInfluencer().setVelocityVariation(1);
-        emit.getParticleInfluencer().setInitialVelocity(new Vector3f(0, .5f, 0));
-        emit.setShape(new EmitterMeshVertexVFX(geo.getMesh()));
+        emitter.setMaterial(mat);
+        emitter.setLowLife(1);
+        emitter.setHighLife(1);
+        emitter.setImagesX(15);
+        emitter.setStartSize(0.04f);
+        emitter.setEndSize(0.02f);
+        emitter.setStartColor(ColorRGBA.Orange);
+        emitter.setEndColor(ColorRGBA.Red);
+        emitter.setParticlesPerSec(200);
+        emitter.setGravity(0, 0f, 0);
+        emitter.setInWorldSpace(true);
+        emitter.getParticleInfluencer().setVelocityVariation(1);
+        emitter.getParticleInfluencer().setInitialVelocity(new Vector3f(0, .5f, 0));
+        emitter.setShape(new EmitterMeshVertexVFX(geo.getMesh()));
 //        emit.setShape(new EmitterMeshFaceVFX(geo.getMesh()));
-        return emit;
+        return emitter;
     }
 
     private void createMotionControl() {
         float radius = 5f;
+        float height = 0f;
+
         MotionPath path = new MotionPath();
         path.setCycle(true);
-        path.addWayPoint(new Vector3f(radius, 0, 0));
-        path.addWayPoint(new Vector3f(0, 0, radius));
-        path.addWayPoint(new Vector3f(-radius, 0, 0));
-        path.addWayPoint(new Vector3f(0, 0, -radius));
-        path.setCurveTension(0.83f);
+
+        for (int i = 0; i < 8; i++) {
+            float x = FastMath.sin(FastMath.QUARTER_PI * i) * radius;
+            float z = FastMath.cos(FastMath.QUARTER_PI * i) * radius;
+            path.addWayPoint(new Vector3f(x, height, z));
+        }
         //path.enableDebugShape(assetManager, rootNode);
 
         motionControl = new MotionEvent(myModel, path);

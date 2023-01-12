@@ -145,36 +145,39 @@ public class Test_JmeVFX3 extends SimpleApplication implements ActionListener {
 
     private MyParticleEmitter createParticleEmitter(EmitterShape shape, boolean pointSprite) {
         Type type = pointSprite ? Type.Point : Type.Triangle;
-        MyParticleEmitter emit = new MyParticleEmitter("Emitter", type, 1000);
+        MyParticleEmitter emitter = new MyParticleEmitter("Emitter", type, 1000);
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Particle.j3md");
         mat.setTexture("Texture", assetManager.loadTexture("Effects/Smoke/Smoke.png"));
         mat.setBoolean("PointSprite", pointSprite);
-        emit.setMaterial(mat);
-        emit.setLowLife(1);
-        emit.setHighLife(1);
-        emit.setImagesX(15);
-        emit.setStartSize(0.06f);
-        emit.setEndSize(0.04f);
-        emit.setStartColor(ColorRGBA.Blue);
-        emit.setEndColor(ColorRGBA.Cyan);
-        emit.setSelectRandomImage(true);
-        emit.setParticlesPerSec(900);
-        emit.setGravity(0, 0f, 0);
-        emit.getParticleInfluencer().setVelocityVariation(1);
-        emit.getParticleInfluencer().setInitialVelocity(new Vector3f(0, .5f, 0));
-        emit.setShape(shape);
-        return emit;
+        emitter.setMaterial(mat);
+        emitter.setLowLife(1);
+        emitter.setHighLife(1);
+        emitter.setImagesX(15);
+        emitter.setStartSize(0.06f);
+        emitter.setEndSize(0.04f);
+        emitter.setStartColor(ColorRGBA.Blue);
+        emitter.setEndColor(ColorRGBA.Cyan);
+        emitter.setSelectRandomImage(true);
+        emitter.setParticlesPerSec(900);
+        emitter.setGravity(0, 0f, 0);
+        emitter.getParticleInfluencer().setVelocityVariation(1);
+        emitter.getParticleInfluencer().setInitialVelocity(new Vector3f(0, .5f, 0));
+        emitter.setShape(shape);
+        return emitter;
     }
 
     private void createMotionControl() {
         float radius = 5f;
+        float height = 0f;
+
         MotionPath path = new MotionPath();
         path.setCycle(true);
-        path.addWayPoint(new Vector3f(radius, 0, 0));
-        path.addWayPoint(new Vector3f(0, 0, radius));
-        path.addWayPoint(new Vector3f(-radius, 0, 0));
-        path.addWayPoint(new Vector3f(0, 0, -radius));
-        path.setCurveTension(0.83f);
+
+        for (int i = 0; i < 8; i++) {
+            float x = FastMath.sin(FastMath.QUARTER_PI * i) * radius;
+            float z = FastMath.cos(FastMath.QUARTER_PI * i) * radius;
+            path.addWayPoint(new Vector3f(x, height, z));
+        }
         //path.enableDebugShape(assetManager, rootNode);
 
         motionControl = new MotionEvent(myModel, path);

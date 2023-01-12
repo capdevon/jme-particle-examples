@@ -6,7 +6,6 @@ import java.util.Queue;
 import com.capdevon.effect.shapes.EmitterMeshVertexVFX;
 import com.jme3.anim.AnimComposer;
 import com.jme3.anim.SkinningControl;
-import com.jme3.app.DetailedProfilerState;
 import com.jme3.app.SimpleApplication;
 import com.jme3.effect.ParticleEmitter;
 import com.jme3.effect.ParticleMesh;
@@ -61,16 +60,16 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
     private Node myModel;
     private AnimComposer animComposer;
     private Queue<String> animsQueue = new LinkedList<>();
-    private BitmapText animUI;
+    private BitmapText emitUI;
+    private ParticleEmitter emit;
 
     @Override
     public void simpleInitApp() {
 
         BitmapText hud = createTextUI(ColorRGBA.White, 20, 15);
-        hud.setText("NextAnim: KEY_RIGHT, AutoRotate: KEY_RETURN");
+        hud.setText("NextAnim: KEY_RIGHT, AutoRotate: KEY_RETURN, InWorldSpace: KEY_I");
 
-        animUI = createTextUI(ColorRGBA.Blue, 20, 15 * 2);
-        animUI.setText("Current Animation: NULL");
+        emitUI = createTextUI(ColorRGBA.Blue, 20, 15 * 2);
 
         //Press F6 to turn it on/off.
         //stateManager.attach(new DetailedProfilerState());
@@ -98,7 +97,7 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
         // 2. Alpha_Joints
         Geometry geo = (Geometry) myModel.getChild("Alpha_Surface");
         //vertexMode(geo);
-        particleMode(geo);
+        emit = particleMode(geo);
     }
 
     private void vertexMode(Geometry source) {
@@ -111,32 +110,35 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
         rootNode.attachChild(node);
     }
 
-    private void particleMode(Geometry geo) {
-        ParticleEmitter emit = new ParticleEmitter("Emitter", ParticleMesh.Type.Triangle, 300);
+    private ParticleEmitter particleMode(Geometry geo) {
+        ParticleEmitter emitter = new ParticleEmitter("Emitter", ParticleMesh.Type.Triangle, 300);
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Particle.j3md");
         mat.setTexture("Texture", assetManager.loadTexture("Effects/Smoke/Smoke.png"));
         //mat.setColor("GlowColor", ColorRGBA.Magenta);
-        emit.setMaterial(mat);
-        emit.setLowLife(1);
-        emit.setHighLife(1);
-        emit.setImagesX(15);
-        emit.setStartSize(0.02f);
-        emit.setEndSize(0.02f);
-        emit.setStartColor(ColorRGBA.Blue);
-        emit.setEndColor(ColorRGBA.Cyan);
-        emit.setParticlesPerSec(100);
-        emit.setGravity(0, 0, 0);
-        emit.getParticleInfluencer().setVelocityVariation(1);
-        emit.getParticleInfluencer().setInitialVelocity(new Vector3f(0, .5f, 0));
-        emit.setShape(new EmitterMeshVertexVFX(geo.getMesh()));
-        //emit.setShape(new EmitterMeshFaceVFX(geo.getMesh()));
+        emitter.setMaterial(mat);
+        emitter.setLowLife(1);
+        emitter.setHighLife(1);
+        emitter.setImagesX(15);
+        emitter.setStartSize(0.02f);
+        emitter.setEndSize(0.02f);
+        emitter.setStartColor(ColorRGBA.Blue);
+        emitter.setEndColor(ColorRGBA.Cyan);
+        emitter.setParticlesPerSec(100);
+        emitter.setGravity(0, 0, 0);
+        emitter.setInWorldSpace(true);
+//        emitter.getParticleInfluencer().setVelocityVariation(1);
+//        emitter.getParticleInfluencer().setInitialVelocity(new Vector3f(0, .5f, 0));
+        emitter.setShape(new EmitterMeshVertexVFX(geo.getMesh()));
+//        emit.setShape(new EmitterMeshFaceVFX(geo.getMesh()));
 //        emit.setParticleInfluencer(new NewtonianParticleInfluencer());
-        geo.getParent().attachChild(emit);
+        geo.getParent().attachChild(emitter);
+        return emitter;
     }
 
     private void setupKeys() {
         addMapping("autoRotate", new KeyTrigger(KeyInput.KEY_RETURN));
         addMapping("nextAnim", new KeyTrigger(KeyInput.KEY_RIGHT));
+        addMapping("InWorldSpace", new KeyTrigger(KeyInput.KEY_I));
     }
 
     private void addMapping(String mappingName, Trigger... triggers) {
@@ -150,10 +152,13 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
             String anim = animsQueue.poll();
             animsQueue.add(anim);
             animComposer.setCurrentAction(anim);
-            animUI.setText("Current Animation: " + anim);
 
         } else if (name.equals("autoRotate") && isPressed) {
             autoRotate = !autoRotate;
+            
+        } else if (name.equals("InWorldSpace") && isPressed) {
+            boolean worldSpace = emit.isInWorldSpace();
+            emit.setInWorldSpace(!worldSpace);
         }
     }
 
@@ -162,6 +167,7 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
         if (autoRotate) {
             myModel.rotate(0, tpf, 0);
         }
+        emitUI.setText("InWorldSpace: " + emit.isInWorldSpace());
     }
 
     private void configCamera() {
