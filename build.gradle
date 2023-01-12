@@ -10,8 +10,8 @@ description = 'jme particle vfx'
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
-//ext.jmeVersion = '3.5.2-stable' // from mavenCentral
-ext.jmeVersion = '3.6.0-alpha2' // from mavenCentral
+ext.jmeVersion = '3.5.2-stable' // from mavenCentral
+//ext.jmeVersion = '3.6.0-alpha2' // from mavenCentral
 //ext.jmeVersion = '3.6.0-SNAPSHOT' // from mavenLocal
 
 gradle.projectsEvaluated {
