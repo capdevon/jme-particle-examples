@@ -49,7 +49,7 @@ public class Test_JmeVFX2 extends SimpleApplication implements ActionListener {
     public static void main(String[] args) {
         Test_JmeVFX2 app = new Test_JmeVFX2();
         AppSettings settings = new AppSettings(true);
-        settings.setResolution(1280, 720);
+        settings.setResolution(1024, 768);
         settings.setRenderer(AppSettings.LWJGL_OPENGL32);
         app.setSettings(settings);
         app.setPauseOnLostFocus(false);
@@ -111,7 +111,7 @@ public class Test_JmeVFX2 extends SimpleApplication implements ActionListener {
         emitter.setEndSize(0.02f);
         emitter.setStartColor(ColorRGBA.Orange);
         emitter.setEndColor(ColorRGBA.Red);
-        emitter.setParticlesPerSec(200);
+        emitter.setParticlesPerSec(600);
         emitter.setGravity(0, 0f, 0);
         emitter.setInWorldSpace(true);
         emitter.getParticleInfluencer().setVelocityVariation(1);

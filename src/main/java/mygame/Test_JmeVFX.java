@@ -6,7 +6,10 @@ import java.util.Queue;
 import com.capdevon.effect.shapes.EmitterMeshVertexVFX;
 import com.jme3.anim.AnimComposer;
 import com.jme3.anim.SkinningControl;
+import com.jme3.animation.LoopMode;
 import com.jme3.app.SimpleApplication;
+import com.jme3.cinematic.MotionPath;
+import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.effect.ParticleEmitter;
 import com.jme3.effect.ParticleMesh;
 import com.jme3.font.BitmapFont;
@@ -56,7 +59,6 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
         app.start();
     }
 
-    private boolean autoRotate = false;
     private Node myModel;
     private AnimComposer animComposer;
     private Queue<String> animsQueue = new LinkedList<>();
@@ -67,7 +69,7 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
     public void simpleInitApp() {
 
         BitmapText hud = createTextUI(ColorRGBA.White, 20, 15);
-        hud.setText("NextAnim: KEY_RIGHT, AutoRotate: KEY_RETURN, InWorldSpace: KEY_I");
+        hud.setText("NextAnim: KEY_RIGHT, InWorldSpace: KEY_I");
 
         emitUI = createTextUI(ColorRGBA.Blue, 20, 15 * 2);
 
@@ -78,6 +80,7 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
         setupLights();
         setupScene();
         setupCharacter();
+        createMotionControl();
         setupKeys();
     }
 
@@ -98,6 +101,8 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
         Geometry geo = (Geometry) myModel.getChild("Alpha_Surface");
         //vertexMode(geo);
         emit = particleMode(geo);
+        
+        animComposer.setCurrentAction("Running");
     }
 
     private void vertexMode(Geometry source) {
@@ -111,7 +116,7 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
     }
 
     private ParticleEmitter particleMode(Geometry geo) {
-        ParticleEmitter emitter = new ParticleEmitter("Emitter", ParticleMesh.Type.Triangle, 300);
+        ParticleEmitter emitter = new ParticleEmitter("Emitter", ParticleMesh.Type.Triangle, 1000);
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Particle.j3md");
         mat.setTexture("Texture", assetManager.loadTexture("Effects/Smoke/Smoke.png"));
         //mat.setColor("GlowColor", ColorRGBA.Magenta);
@@ -119,24 +124,47 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
         emitter.setLowLife(1);
         emitter.setHighLife(1);
         emitter.setImagesX(15);
-        emitter.setStartSize(0.02f);
+        emitter.setStartSize(0.04f);
         emitter.setEndSize(0.02f);
         emitter.setStartColor(ColorRGBA.Blue);
         emitter.setEndColor(ColorRGBA.Cyan);
-        emitter.setParticlesPerSec(100);
+        emitter.setParticlesPerSec(600);
         emitter.setGravity(0, 0, 0);
         emitter.setInWorldSpace(true);
-//        emitter.getParticleInfluencer().setVelocityVariation(1);
-//        emitter.getParticleInfluencer().setInitialVelocity(new Vector3f(0, .5f, 0));
+        emitter.getParticleInfluencer().setVelocityVariation(1);
+        emitter.getParticleInfluencer().setInitialVelocity(new Vector3f(0, .5f, 0));
         emitter.setShape(new EmitterMeshVertexVFX(geo.getMesh()));
 //        emit.setShape(new EmitterMeshFaceVFX(geo.getMesh()));
 //        emit.setParticleInfluencer(new NewtonianParticleInfluencer());
         geo.getParent().attachChild(emitter);
         return emitter;
     }
+    
+    private MotionEvent createMotionControl() {
+        float radius = 5f;
+        float height = 0f;
+
+        MotionPath path = new MotionPath();
+        path.setCycle(true);
+
+        for (int i = 0; i < 8; i++) {
+            float x = FastMath.sin(FastMath.QUARTER_PI * i) * radius;
+            float z = FastMath.cos(FastMath.QUARTER_PI * i) * radius;
+            path.addWayPoint(new Vector3f(x, height, z));
+        }
+        //path.enableDebugShape(assetManager, rootNode);
+
+        MotionEvent motionControl = new MotionEvent(myModel, path);
+        motionControl.setLoopMode(LoopMode.Loop);
+        //motionControl.setInitialDuration(10f);
+        //motionControl.setSpeed(2f);
+        motionControl.setDirectionType(MotionEvent.Direction.Path);
+        motionControl.play();
+        
+        return motionControl;
+    }
 
     private void setupKeys() {
-        addMapping("autoRotate", new KeyTrigger(KeyInput.KEY_RETURN));
         addMapping("nextAnim", new KeyTrigger(KeyInput.KEY_RIGHT));
         addMapping("InWorldSpace", new KeyTrigger(KeyInput.KEY_I));
     }
@@ -153,9 +181,6 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
             animsQueue.add(anim);
             animComposer.setCurrentAction(anim);
 
-        } else if (name.equals("autoRotate") && isPressed) {
-            autoRotate = !autoRotate;
-            
         } else if (name.equals("InWorldSpace") && isPressed) {
             boolean worldSpace = emit.isInWorldSpace();
             emit.setInWorldSpace(!worldSpace);
@@ -164,9 +189,6 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
 
     @Override
     public void simpleUpdate(float tpf) {
-        if (autoRotate) {
-            myModel.rotate(0, tpf, 0);
-        }
         emitUI.setText("InWorldSpace: " + emit.isInWorldSpace());
     }
 
@@ -174,7 +196,7 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(10);
 
-        cam.setLocation(new Vector3f(0, 2, 5));
+        cam.setLocation(new Vector3f(0, 6, 9.2f));
         cam.lookAt(Vector3f.UNIT_Y, Vector3f.UNIT_Y);
 
         float aspect = (float) cam.getWidth() / cam.getHeight();
@@ -182,7 +204,7 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
     }
 
     private void setupScene() {
-        CenterQuad quad = new CenterQuad(8, 8);
+        CenterQuad quad = new CenterQuad(12, 12);
         quad.scaleTextureCoordinates(new Vector2f(2, 2));
         Geometry floor = createMesh("Floor", quad);
         floor.rotate(-FastMath.HALF_PI, 0, 0);
