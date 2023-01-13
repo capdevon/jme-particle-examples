@@ -715,10 +715,8 @@ public class MyParticleEmitter extends Geometry implements BaseEmitter {
             p.rotateSpeed = rotateSpeed * (0.2f + (FastMath.nextRandomFloat() * 2f - 1f) * .8f);
         }
 
-        temp.set(p.position).addLocal(p.size, p.size, p.size);
-        max.maxLocal(temp);
-        temp.set(p.position).subtractLocal(p.size, p.size, p.size);
-        min.minLocal(temp);
+        // Computing bounding volume
+        computeBoundingVolume(p, min, max);
 
         ++lastUsed;
         firstUnused = idx + 1;
@@ -833,14 +831,18 @@ public class MyParticleEmitter extends Geometry implements BaseEmitter {
         p.angle += p.rotateSpeed * tpf;
 
         // Computing bounding volume
-        temp.set(p.position).addLocal(p.size, p.size, p.size);
-        max.maxLocal(temp);
-        temp.set(p.position).subtractLocal(p.size, p.size, p.size);
-        min.minLocal(temp);
+        computeBoundingVolume(p, min, max);
 
         if (!selectRandomImage) {
             p.imageIndex = (int) (b * imagesX * imagesY);
         }
+    }
+    
+    private void computeBoundingVolume(Particle p, Vector3f min, Vector3f max) {
+        temp.set(p.position).addLocal(p.size, p.size, p.size);
+        max.maxLocal(temp);
+        temp.set(p.position).subtractLocal(p.size, p.size, p.size);
+        min.minLocal(temp);
     }
 
     private void updateParticleState(float tpf) {
@@ -945,7 +947,7 @@ public class MyParticleEmitter extends Geometry implements BaseEmitter {
      *
      * @param tpf time per frame (in seconds)
      */
-    public void updateFromControl(float tpf) {
+    protected void updateFromControl(float tpf) {
         if (enabled) {
             this.updateParticleState(tpf);
         }
@@ -957,7 +959,7 @@ public class MyParticleEmitter extends Geometry implements BaseEmitter {
      * @param rm the RenderManager rendering this Emitter (not null)
      * @param vp the ViewPort being rendered (not null)
      */
-    public void renderFromControl(RenderManager rm, ViewPort vp) {
+    protected void renderFromControl(RenderManager rm, ViewPort vp) {
         Camera cam = vp.getCamera();
 
         if (meshType == ParticleMesh.Type.Point) {
@@ -968,15 +970,14 @@ public class MyParticleEmitter extends Geometry implements BaseEmitter {
             this.getMaterial().setFloat("Quadratic", C);
         }
 
-        Matrix3f inverseRotation = Matrix3f.IDENTITY;
-        TempVars vars = null;
         if (!worldSpace) {
-            vars = TempVars.get();
-            inverseRotation = this.getWorldRotation().toRotationMatrix(vars.tempMat3).invertLocal();
-        }
-        particleMesh.updateParticleData(particles, cam, inverseRotation);
-        if (!worldSpace) {
+            TempVars vars = TempVars.get();
+            Matrix3f inverseRotation = this.getWorldRotation().toRotationMatrix(vars.tempMat3).invertLocal();
+            particleMesh.updateParticleData(particles, cam, inverseRotation);
             vars.release();
+
+        } else {
+            particleMesh.updateParticleData(particles, cam, Matrix3f.IDENTITY);
         }
     }
 

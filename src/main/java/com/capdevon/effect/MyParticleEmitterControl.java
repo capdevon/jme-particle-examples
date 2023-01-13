@@ -23,4 +23,5 @@ public class MyParticleEmitterControl extends AbstractControl {
     protected MyParticleEmitter getParticleEmitter() {
         return (MyParticleEmitter) spatial;
     }
+
 }

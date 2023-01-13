@@ -275,11 +275,9 @@ public class TriangleMesh extends MyParticleMesh {
 
         positions.clear();
         colors.clear();
+        texcoords.clear();
 
-        if (!uniqueTexCoords) {
-            texcoords.clear();
-        } else {
-            texcoords.clear();
+        if (uniqueTexCoords) {
             tvb.updateData(texcoords);
         }
 
