@@ -20,7 +20,7 @@ import com.jme3.util.BufferUtils;
 import com.jme3.util.clone.Cloner;
 
 /**
- * This emitter shape emits the particles from the given shape's vertices
+ * This emitter shape emits the particles from the given shape's vertices.
  *
  * @author capdevon
  */
@@ -36,7 +36,7 @@ public class EmitterMeshVertexVFX implements EmitterShape {
     }
 
     /**
-     * Constructor.
+     * Instantiate an EmitterMeshVertexVFX.
      *
      * @param source
      */
@@ -55,9 +55,7 @@ public class EmitterMeshVertexVFX implements EmitterShape {
             Vector3f position = new Vector3f();
             BufferUtils.populateFromBuffer(position, vertexBuffer, i);
 
-            if (!mapPos.containsKey(position)) {
-                mapPos.put(position, i);
-            }
+            mapPos.putIfAbsent(position, i);
         }
 
         indexList.addAll(mapPos.values());
@@ -93,30 +91,49 @@ public class EmitterMeshVertexVFX implements EmitterShape {
     }
 
     @Override
-    public void write(JmeExporter ex) throws IOException {
-        // TODO Auto-generated method stub
-    }
+    public EmitterShape deepClone() {
+        try {
+            EmitterMeshVertexVFX clone = (EmitterMeshVertexVFX) super.clone();
+            if (indexList != null) {
+                clone.indexList = new ArrayList<Integer>(indexList.size());
+                for (Integer index : indexList) {
+                    clone.indexList.add(index);
+                }
+            }
+            return clone;
 
-    @Override
-    public void read(JmeImporter im) throws IOException {
-        // TODO Auto-generated method stub
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 
     @Override
     public Object jmeClone() {
-        // TODO Auto-generated method stub
-        return null;
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new AssertionError();
+        }
     }
 
     @Override
     public void cloneFields(Cloner cloner, Object original) {
-        // TODO Auto-generated method stub
+        this.indexList = cloner.clone(indexList);
     }
 
     @Override
-    public EmitterShape deepClone() {
-        // TODO Auto-generated method stub
-        return null;
+    public void write(JmeExporter ex) throws IOException {
+        OutputCapsule oc = ex.getCapsule(this);
+        //oc.writeSavableArrayList((ArrayList<Integer>) indexList, "indices", null);
+        oc.write(source, "mesh", new EmitterMeshVertexVFX());
+    }
+
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        InputCapsule ic = im.getCapsule(this);
+        //indexList = ic.readSavableArrayList("indices", null);
+        source = (Mesh) ic.readSavable("mesh", new EmitterMeshVertexVFX());
+        calculateVertices();
     }
 
     @Override

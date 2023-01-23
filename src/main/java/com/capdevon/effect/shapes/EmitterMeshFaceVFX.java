@@ -3,8 +3,10 @@ package com.capdevon.effect.shapes;
 import java.io.IOException;
 
 import com.jme3.effect.shapes.EmitterShape;
+import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
 import com.jme3.math.FastMath;
 import com.jme3.math.Triangle;
 import com.jme3.math.Vector3f;
@@ -19,9 +21,7 @@ import com.jme3.util.clone.Cloner;
 public class EmitterMeshFaceVFX implements EmitterShape {
 
     private Mesh source;
-    private int triangleIndex;
     private Triangle triStore = new Triangle();
-    private int triCount;
     Vector3f p1 = new Vector3f();
     Vector3f p2 = new Vector3f();
     Vector3f p3 = new Vector3f();
@@ -35,9 +35,13 @@ public class EmitterMeshFaceVFX implements EmitterShape {
     protected EmitterMeshFaceVFX() {
     }
 
+    /**
+     * Instantiate an EmitterMeshFaceVFX.
+     *
+     * @param source
+     */
     public EmitterMeshFaceVFX(Mesh source) {
         this.source = source;
-        triCount = source.getTriangleCount();
     }
 
     /**
@@ -45,7 +49,7 @@ public class EmitterMeshFaceVFX implements EmitterShape {
      */
     @Override
     public void getRandomPoint(Vector3f store) {
-        triangleIndex = FastMath.nextRandomInt(0, triCount - 1);
+        int triangleIndex = FastMath.nextRandomInt(0, source.getTriangleCount() - 1);
         source.getTriangle(triangleIndex, triStore);
         triStore.calculateCenter();
         triStore.calculateNormal();
@@ -66,14 +70,6 @@ public class EmitterMeshFaceVFX implements EmitterShape {
     }
 
     @Override
-    public void write(JmeExporter ex) throws IOException {
-    }
-
-    @Override
-    public void read(JmeImporter im) throws IOException {
-    }
-
-    @Override
     public Object jmeClone() {
         return null;
     }
@@ -85,6 +81,18 @@ public class EmitterMeshFaceVFX implements EmitterShape {
     @Override
     public EmitterShape deepClone() {
         return null;
+    }
+
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        OutputCapsule oc = ex.getCapsule(this);
+        oc.write(source, "mesh", new EmitterMeshVertexVFX());
+    }
+
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        InputCapsule ic = im.getCapsule(this);
+        source = (Mesh) ic.readSavable("mesh", new EmitterMeshVertexVFX());
     }
 
     @Override
