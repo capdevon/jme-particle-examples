@@ -105,6 +105,7 @@ public class MyParticleEmitter extends Geometry implements BaseEmitter {
     private float startSize = 0.2f;
     private float endSize = 2f;
     private boolean worldSpace = true;
+    private ParticleInfluencer colorInfluencer;
 
     //variable that helps with computations
     private transient Vector3f temp = new Vector3f();
@@ -826,7 +827,11 @@ public class MyParticleEmitter extends Geometry implements BaseEmitter {
 
         // affecting color, size and angle
         float b = (p.startlife - p.life) / p.startlife;
-        p.color.interpolateLocal(startColor, endColor, b);
+        if (colorInfluencer != null) {
+            colorInfluencer.influenceParticle(p, shape);
+        } else {
+            p.color.interpolateLocal(startColor, endColor, b);
+        }
         p.size = FastMath.interpolateLinear(b, startSize, endSize);
         p.angle += p.rotateSpeed * tpf;
 
@@ -940,6 +945,14 @@ public class MyParticleEmitter extends Geometry implements BaseEmitter {
      */
     public boolean isEnabled() {
         return enabled;
+    }
+    
+    public ParticleInfluencer getColorInfluencer() {
+        return colorInfluencer;
+    }
+
+    public void setColorInfluencer(ParticleInfluencer colorInfluencer) {
+        this.colorInfluencer = colorInfluencer;
     }
 
     /**

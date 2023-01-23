@@ -1,6 +1,7 @@
 package mygame;
 
 import com.capdevon.effect.MyParticleEmitter;
+import com.capdevon.effect.influencers.GradientColorInfluencer;
 import com.capdevon.effect.shapes.EmitterMeshFaceVFX;
 import com.capdevon.effect.shapes.EmitterMeshVertexVFX;
 import com.jme3.anim.AnimComposer;
@@ -109,15 +110,17 @@ public class Test_JmeVFX2 extends SimpleApplication implements ActionListener {
         emitter.setImagesX(15);
         emitter.setStartSize(0.04f);
         emitter.setEndSize(0.02f);
-        emitter.setStartColor(ColorRGBA.Orange);
+        emitter.setStartColor(ColorRGBA.Blue);
         emitter.setEndColor(ColorRGBA.Red);
         emitter.setParticlesPerSec(600);
         emitter.setGravity(0, 0f, 0);
         emitter.setInWorldSpace(true);
         emitter.getParticleInfluencer().setVelocityVariation(1);
         emitter.getParticleInfluencer().setInitialVelocity(new Vector3f(0, .5f, 0));
-        emitter.setShape(new EmitterMeshVertexVFX(geo.getMesh()));
-//        emit.setShape(new EmitterMeshFaceVFX(geo.getMesh()));
+//        emitter.setShape(new EmitterMeshVertexVFX(geo.getMesh()));
+        emitter.setShape(new EmitterMeshFaceVFX(geo.getMesh()));
+        emitter.setColorInfluencer(new GradientColorInfluencer(emitter.getStartColor(), emitter.getEndColor(), .2f, 1f));
+        
         return emitter;
     }
 
