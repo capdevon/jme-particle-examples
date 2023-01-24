@@ -10,7 +10,6 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 
 /**
@@ -54,9 +53,15 @@ public class GradientColorInfluencer extends EmptyParticleInfluencer {
     }
 
     private ColorRGBA getValueColor(float percent) {
-        float range = maxX - minX;
-        float p = (percent - minX) / range;
-        stepColor.interpolateLocal(endColor, startColor, FastMath.clamp(p, .0f, 1f));
+        if (percent < minX) {
+            stepColor.set(startColor);
+        } else if (percent > maxX) {
+            stepColor.set(endColor);
+        } else {
+            float range = maxX - minX;
+            float p = (percent - minX) / range;
+            stepColor.interpolateLocal(startColor, endColor, p);
+        }
         return stepColor;
     }
 

@@ -106,7 +106,7 @@ public class Test_JmeVFX2 extends SimpleApplication implements ActionListener {
 //        mat.setColor("GlowColor", ColorRGBA.Yellow);
         emitter.setMaterial(mat);
         emitter.setLowLife(1);
-        emitter.setHighLife(1);
+        emitter.setHighLife(2);
         emitter.setImagesX(15);
         emitter.setStartSize(0.04f);
         emitter.setEndSize(0.02f);
@@ -119,7 +119,7 @@ public class Test_JmeVFX2 extends SimpleApplication implements ActionListener {
         emitter.getParticleInfluencer().setInitialVelocity(new Vector3f(0, .5f, 0));
 //        emitter.setShape(new EmitterMeshVertexVFX(geo.getMesh()));
         emitter.setShape(new EmitterMeshFaceVFX(geo.getMesh()));
-        emitter.setColorInfluencer(new GradientColorInfluencer(emitter.getStartColor(), emitter.getEndColor(), .2f, 1f));
+        emitter.setColorInfluencer(new GradientColorInfluencer(emitter.getStartColor(), emitter.getEndColor(), .1f, .3f));
         
         return emitter;
     }
