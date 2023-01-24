@@ -37,17 +37,19 @@ import com.jme3.system.AppSettings;
 import com.jme3.texture.Texture;
 
 /**
- *
+ * https://github.com/jMonkeyEngine/jmonkeyengine/issues/1773
+ * https://github.com/jMonkeyEngine/jmonkeyengine/pull/1889
+ * 
  * @author capdevon
  */
-public class Test_ParticleIssue extends SimpleApplication implements ActionListener {
+public class Test_Issue1773 extends SimpleApplication implements ActionListener {
 
     /**
      *
      * @param args
      */
     public static void main(String[] args) {
-        Test_ParticleIssue app = new Test_ParticleIssue();
+        Test_Issue1773 app = new Test_Issue1773();
         AppSettings settings = new AppSettings(true);
         settings.setResolution(1280, 720);
         settings.setRenderer(AppSettings.LWJGL_OPENGL32);
