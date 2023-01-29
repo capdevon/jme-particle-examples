@@ -52,7 +52,6 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
         Test_JmeVFX app = new Test_JmeVFX();
         AppSettings settings = new AppSettings(true);
         settings.setResolution(1024, 768);
-        settings.setRenderer(AppSettings.LWJGL_OPENGL32);
         app.setSettings(settings);
         app.setPauseOnLostFocus(false);
         app.setShowSettings(false);

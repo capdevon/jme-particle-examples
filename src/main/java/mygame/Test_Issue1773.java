@@ -52,7 +52,6 @@ public class Test_Issue1773 extends SimpleApplication implements ActionListener 
         Test_Issue1773 app = new Test_Issue1773();
         AppSettings settings = new AppSettings(true);
         settings.setResolution(1280, 720);
-        settings.setRenderer(AppSettings.LWJGL_OPENGL32);
         app.setSettings(settings);
         app.setPauseOnLostFocus(false);
         app.setShowSettings(false);
