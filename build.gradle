@@ -1,6 +1,5 @@
 
 plugins {
-    id 'application'
     id 'java'
 }
 
@@ -11,9 +10,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 // select one version of JMonkeyEngine:
-//ext.jmeVersion = '3.5.2-stable' // from mavenCentral
-ext.jmeVersion = '3.6.0-beta3' // from mavenCentral
-//ext.jmeVersion = '3.6.0-SNAPSHOT' // from mavenLocal
+ext.jmeVersion = '3.6.0-stable' // from mavenCentral
 
 tasks.withType(JavaCompile) { // compile-time options:
     options.compilerArgs << '-Xdiags:verbose'
@@ -35,8 +32,6 @@ tasks.withType(JavaExec) { // runtime options:
     //jvmArgs '-XX:+UseG1GC', '-XX:MaxGCPauseMillis=10'
 }
     
-mainClassName = 'mygame.Test_JmeVFX'
-
 repositories {
     mavenCentral()
 }
@@ -51,11 +46,11 @@ dependencies {
     runtimeOnly    'org.jmonkeyengine:jme3-awt-dialogs:' + jmeVersion // JMonkeyEngine v3.6 only!
     
     // Physics:
-    //implementation 'com.github.stephengold:Minie:7.2.0+big3'
+    //implementation 'com.github.stephengold:Minie:7.4.0+big3'
 
     // -- select one version of LWJGL
-    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jmeVersion  // LWJGL 2.x
-    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jmeVersion // LWJGL 3.x
+    //runtimeOnly 'org.jmonkeyengine:jme3-lwjgl:' + jmeVersion  // LWJGL 2.x
+    runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jmeVersion // LWJGL 3.x
 
     //  -- they are included solely to avoid warnings from AssetConfig
     runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jmeVersion
