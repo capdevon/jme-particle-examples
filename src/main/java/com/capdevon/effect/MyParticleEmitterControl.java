@@ -10,18 +10,16 @@ import com.jme3.scene.control.AbstractControl;
  */
 public class MyParticleEmitterControl extends AbstractControl {
 
+    protected MyParticleEmitterControl() {}
+
     @Override
     public void controlUpdate(float tpf) {
-        getParticleEmitter().updateFromControl(tpf);
+        ((MyParticleEmitter) spatial).updateFromControl(tpf);
     }
 
     @Override
     public void controlRender(RenderManager rm, ViewPort vp) {
-        getParticleEmitter().renderFromControl(rm, vp);
-    }
-
-    protected MyParticleEmitter getParticleEmitter() {
-        return (MyParticleEmitter) spatial;
+        ((MyParticleEmitter) spatial).renderFromControl(rm, vp);
     }
 
 }
