@@ -3,6 +3,7 @@ package mygame;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.capdevon.effect.shapes.EmitterMeshFaceVFX;
 import com.capdevon.effect.shapes.EmitterMeshVertexVFX;
 import com.jme3.anim.AnimComposer;
 import com.jme3.anim.SkinningControl;
@@ -106,7 +107,7 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
 
     private void vertexMode(Geometry source) {
         Node node = new Node("SkinnedMesh");
-        SkinnedVFXControl skinVFX = new SkinnedVFXControl(source.getMesh(), 0.001f);
+        SkinnedVFXControl skinVFX = new SkinnedVFXControl(assetManager, source.getMesh());
         skinVFX.mat.setColor("GlowColor", ColorRGBA.Magenta);
         skinVFX.target = source.getParent();
         skinVFX.refreshRate = 0.01f;
@@ -132,9 +133,9 @@ public class Test_JmeVFX extends SimpleApplication implements ActionListener {
         emitter.setInWorldSpace(true);
         emitter.getParticleInfluencer().setVelocityVariation(1);
         emitter.getParticleInfluencer().setInitialVelocity(new Vector3f(0, .5f, 0));
-        emitter.setShape(new EmitterMeshVertexVFX(geo.getMesh()));
-//        emit.setShape(new EmitterMeshFaceVFX(geo.getMesh()));
-//        emit.setParticleInfluencer(new NewtonianParticleInfluencer());
+//        emitter.setShape(new EmitterMeshVertexVFX(geo.getMesh()));
+        emitter.setShape(new EmitterMeshFaceVFX(geo.getMesh()));
+//        emitter.setParticleInfluencer(new NewtonianParticleInfluencer());
         geo.getParent().attachChild(emitter);
         return emitter;
     }

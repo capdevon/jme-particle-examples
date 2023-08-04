@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.asset.DesktopAssetManager;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
 import com.jme3.material.RenderState.FaceCullMode;
@@ -27,7 +26,7 @@ import com.jme3.scene.shape.CenterQuad;
 import com.jme3.util.BufferUtils;
 
 /**
- *
+ * 
  * @author capdevon
  */
 public class SkinnedVFXControl extends AbstractControl {
@@ -37,7 +36,7 @@ public class SkinnedVFXControl extends AbstractControl {
     private final Vector3f origin = new Vector3f();
 
     private Mesh source;
-    private float size;
+    private float size = 0.001f;
     private float timer;
 
     public Material mat;
@@ -46,14 +45,15 @@ public class SkinnedVFXControl extends AbstractControl {
 
     /**
      * Constructor.
-     *
+     * 
+     * @deprecated Use {@link com.capdevon.effect.MyParticleEmitter} instead.
      * @param source
      * @param size
      */
-    public SkinnedVFXControl(Mesh source, float size) {
-        this.assetManager = new DesktopAssetManager(true);
+    @Deprecated
+    public SkinnedVFXControl(AssetManager assetManager, Mesh source) {
+        this.assetManager = assetManager;
         this.source = source;
-        this.size = size;
         setupMaterial();
     }
 
@@ -130,7 +130,6 @@ public class SkinnedVFXControl extends AbstractControl {
 
     @Override
     protected void controlRender(RenderManager rm, ViewPort vp) {
-        // TODO Auto-generated method stub
     }
 
 }
