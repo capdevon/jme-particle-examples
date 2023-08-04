@@ -86,13 +86,13 @@ public class EmitterMeshFaceVFX implements EmitterShape {
     @Override
     public void write(JmeExporter ex) throws IOException {
         OutputCapsule oc = ex.getCapsule(this);
-        oc.write(source, "mesh", new EmitterMeshVertexVFX());
+        oc.write(source, "mesh", null);
     }
 
     @Override
     public void read(JmeImporter im) throws IOException {
         InputCapsule ic = im.getCapsule(this);
-        source = (Mesh) ic.readSavable("mesh", new EmitterMeshVertexVFX());
+        source = (Mesh) ic.readSavable("mesh", null);
     }
 
     @Override

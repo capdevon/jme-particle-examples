@@ -124,15 +124,13 @@ public class EmitterMeshVertexVFX implements EmitterShape {
     @Override
     public void write(JmeExporter ex) throws IOException {
         OutputCapsule oc = ex.getCapsule(this);
-        //oc.writeSavableArrayList((ArrayList<Integer>) indexList, "indices", null);
-        oc.write(source, "mesh", new EmitterMeshVertexVFX());
+        oc.write(source, "mesh", null);
     }
 
     @Override
     public void read(JmeImporter im) throws IOException {
         InputCapsule ic = im.getCapsule(this);
-        //indexList = ic.readSavableArrayList("indices", null);
-        source = (Mesh) ic.readSavable("mesh", new EmitterMeshVertexVFX());
+        source = (Mesh) ic.readSavable("mesh", null);
         calculateVertices();
     }
 
