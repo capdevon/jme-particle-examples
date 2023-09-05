@@ -236,15 +236,15 @@ public class Test_JmeVFX3 extends SimpleApplication implements ActionListener {
     private void setupScene() {
         CenterQuad quad = new CenterQuad(12, 12);
         quad.scaleTextureCoordinates(new Vector2f(2, 2));
-        Geometry floor = createMesh("Floor", quad);
+        Geometry floor = makeGeometry("Floor", quad, "Interface/Logo/Monkey.jpg");
         floor.rotate(-FastMath.HALF_PI, 0, 0);
         rootNode.attachChild(floor);
     }
 
-    private Geometry createMesh(String name, Mesh mesh) {
+    private Geometry makeGeometry(String name, Mesh mesh, String texture) {
         Geometry geo = new Geometry(name, mesh);
         Material mat = new Material(assetManager, Materials.LIGHTING);
-        Texture tex = assetManager.loadTexture("Interface/Logo/Monkey.jpg");
+        Texture tex = assetManager.loadTexture(texture);
         tex.setWrap(Texture.WrapMode.Repeat);
         mat.setTexture("DiffuseMap", tex);
         geo.setMaterial(mat);
