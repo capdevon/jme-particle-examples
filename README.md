@@ -1,5 +1,5 @@
 # jme-particle-examples
-Spawn particles in an animated character.
+Spawn particles in an animated character in a skinned mesh. This technique can be quite useful to create some pretty cool effects for a character or an animated object. Enjoy!
 
 🔔 If you found this project useful, please let me know by leaving a 'star' to motivate me to improve it. Thanks.
 
