@@ -37,8 +37,8 @@ import com.jme3.renderer.Camera;
 import com.jme3.scene.Mesh;
 
 /**
- * The <code>ParticleMesh</code> is the underlying visual implementation of a 
- * {@link ParticleEmitter particle emitter}.
+ * The <code>MyParticleMesh</code> is the underlying visual implementation of a
+ * {@link MyParticleEmitter particle emitter}.
  * 
  * @author Kirill Vainer
  */
@@ -47,7 +47,8 @@ public abstract class MyParticleMesh extends Mesh {
     /**
      * Initialize mesh data.
      *
-     * @param emitter The emitter which will use this <code>ParticleMesh</code>.
+     * @param emitter      The emitter which will use this
+     *                     <code>MyParticleMesh</code>.
      * @param numParticles The maximum number of particles to simulate
      */
     public abstract void initParticleData(BaseEmitter emitter, int numParticles);
@@ -63,8 +64,8 @@ public abstract class MyParticleMesh extends Mesh {
     /**
      * Update the particle visual data. Typically called every frame.
      *
-     * @param particles the particles to update
-     * @param cam the camera to use for billboarding
+     * @param particles       the particles to update
+     * @param cam             the camera to use for billboarding
      * @param inverseRotation the inverse rotation matrix
      */
     public abstract void updateParticleData(Particle[] particles, Camera cam, Matrix3f inverseRotation);
