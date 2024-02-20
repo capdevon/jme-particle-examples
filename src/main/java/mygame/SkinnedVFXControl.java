@@ -47,8 +47,8 @@ public class SkinnedVFXControl extends AbstractControl {
      * Constructor.
      * 
      * @deprecated Use {@link com.capdevon.effect.MyParticleEmitter} instead.
+     * @param assetManager
      * @param source
-     * @param size
      */
     @Deprecated
     public SkinnedVFXControl(AssetManager assetManager, Mesh source) {
