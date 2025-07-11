@@ -8,7 +8,7 @@ import com.jme3.scene.control.AbstractControl;
  *
  * @author capdevon
  */
-public class MyParticleEmitterControl extends AbstractControl {
+class MyParticleEmitterControl extends AbstractControl {
 
     protected MyParticleEmitterControl() {}
 
